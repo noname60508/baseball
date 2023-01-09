@@ -41,16 +41,16 @@ class AuthController extends Controller
         //驗證
         $validator = Validator::make(
             [
-                'accountOrEamil' => $request->accountOrEamil,
+                'accountOrEmail' => $request->accountOrEmail,
                 'password' => $request->password,
             ],
             [
-                'accountOrEamil'   => 'required|string',
+                'accountOrEmail'   => 'required|string',
                 'password' => 'required|string',
             ],
             [
-                'accountOrEamil.required'  => '【帳號】必填',
-                'accountOrEamil.string'    => '【帳號】須為字串',
+                'accountOrEmail.required'  => '【帳號】必填',
+                'accountOrEmail.string'    => '【帳號】須為字串',
                 'password.required' => '【密碼】必填',
                 'password.string'   => '【密碼】須為字串',
             ]
@@ -61,8 +61,8 @@ class AuthController extends Controller
 
         try {
             $user = users::where(function ($query) use ($request) {
-                $query->where('account', $request->accountOrEamil);
-                $query->orWhere('email', $request->accountOrEamil);
+                $query->where('account', $request->accountOrEmail);
+                $query->orWhere('email', $request->accountOrEmail);
             })
                 ->select('id', 'name', 'email')
                 ->first();
