@@ -80,6 +80,7 @@ class AuthController extends Controller
 
             $user->update(['dt_login' => $this->nowTime]);
 
+            // return response()->header('Authorization', $token)->ApiResponse(101, $request->all());
             $response = $this->apiResponse(301, true, $user);
             return response($response, 200)->header('Authorization', $token);
         } catch (\Throwable $e) {
