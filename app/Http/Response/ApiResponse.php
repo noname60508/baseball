@@ -10,7 +10,7 @@ trait ApiResponse
     {
         return [
             'code'    => (string) $code,
-            'status'  => $status ? 'success' : 'error',
+            // 'status'  => $status ? 'success' : 'error',
             'message' => trans('errorCode.' . $code),
             'data'    => $data,
         ];
@@ -18,6 +18,6 @@ trait ApiResponse
     protected function apiResponseCode($code = 0, $data = [])
     {
         // 尾數為1代表成功
-        return $this->apiResponse($code, $code%10===1, $data);
+        return $this->apiResponse($code, $code % 10 === 1, $data);
     }
 }

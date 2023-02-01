@@ -80,11 +80,12 @@ class AuthController extends Controller
 
             $user->update(['dt_login' => $this->nowTime]);
 
-            // return response()->header('Authorization', $token)->ApiResponse(101, $request->all());
-            $response = $this->apiResponse(301, true, $user);
-            return response($response, 200)->header('Authorization', $token);
+            return response()->apiResponse(301, $user, $token);
+            // $response = $this->apiResponse(301, true, $user);
+            // return response($response, 200)->header('Authorization', $token);
         } catch (\Throwable $e) {
-            return $this->apiResponse(100, false, $e->getMessage());
+            return response()->apiResponse(100, '');
+            return response()->apiResponse(100, $e->getMessage());
         }
     }
 
@@ -101,9 +102,10 @@ class AuthController extends Controller
             users::where('id', $user->id)->update(['dt_logout' => $this->nowTime]);
 
             auth()->logout();
-            return $this->apiResponse(303, true, '登出成功');
+            return response()->apiResponse(303, '登出成功');
         } catch (\Throwable $e) {
-            return $this->apiResponse(100, false, $e->getMessage());
+            return response()->apiResponse(100, '');
+            return response()->apiResponse(100, $e->getMessage());
         }
     }
 
@@ -152,9 +154,10 @@ class AuthController extends Controller
 
             $user = users::create($userData);
 
-            return $this->apiResponse(309, true, $user);
+            return response()->apiResponse(309, $user);
         } catch (\Throwable $e) {
-            return $this->apiResponse(100, false, $e->getMessage());
+            return response()->apiResponse(100, '');
+            return response()->apiResponse(100, $e->getMessage());
         }
     }
 
@@ -187,9 +190,10 @@ class AuthController extends Controller
 
             users::where('id', $request->id)->delete();
 
-            return $this->apiResponse(501, true, '刪除成功');
+            return response()->apiResponse(501, '刪除成功');
         } catch (\Throwable $e) {
-            return $this->apiResponse(100, false, $e->getMessage());
+            return response()->apiResponse(100, '');
+            return response()->apiResponse(100, $e->getMessage());
         }
     }
 
@@ -251,9 +255,10 @@ class AuthController extends Controller
             }
             $update->update($updateRequest->toArray());
 
-            return $this->apiResponse(201, true, $update);
+            return response()->apiResponse(201, $update);
         } catch (\Throwable $e) {
-            return $this->apiResponse(100, false, $e->getMessage());
+            return response()->apiResponse(100, '');
+            return response()->apiResponse(100, $e->getMessage());
         }
     }
 
@@ -307,9 +312,10 @@ class AuthController extends Controller
                 $output = $users->get();
             }
 
-            return $this->apiResponse(101, true, $output);
+            return response()->apiResponse(101, $output);
         } catch (\Throwable $e) {
-            return $this->apiResponse(100, false, $e->getMessage());
+            return response()->apiResponse(100, '');
+            return response()->apiResponse(100, $e->getMessage());
         }
     }
 

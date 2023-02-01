@@ -8,7 +8,7 @@ class ApiResponseToServerProvider
     {
         return [
             'code'    => (string) $code,
-            'status'  => ($code % 10 === 1) ? true : false,
+            // 'status'  => ($code % 10 === 1) ? true : false,
             'message' => trans('errorCode.' . $code),
             'data'    => $data,
         ];

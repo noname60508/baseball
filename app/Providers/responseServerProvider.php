@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Response;
+use Illuminate\Support\Facades\Response;
 use App\Http\Response\ApiResponseToServerProvider;
 
 class responseServerProvider extends ServiceProvider
@@ -25,8 +25,13 @@ class responseServerProvider extends ServiceProvider
      */
     public function boot()
     {
-        Response::macro('ApiResponse', function ($code, $date) {
-            return ApiResponseToServerProvider::apiResponse($code, $date);
+        Response::macro('apiResponse', function ($code, $date, $token = null) {
+            if (empty($token)) {
+                return ApiResponseToServerProvider::apiResponse($code, $date);
+            } else {
+                return Response::json(ApiResponseToServerProvider::apiResponse($code, $date), 200)
+                    ->header('Authorization', $token);
+            }
         });
     }
 }

@@ -12,6 +12,7 @@ trait ValidatorJudge
      */
     protected function returnFailureMessages($validator)
     {
-        return $this->apiResponse(2, false, $validator->errors());
+        return response()->apiResponse(100, $validator->errors());
+        // return $this->apiResponse(2, false, $validator->errors());
     }
 }
