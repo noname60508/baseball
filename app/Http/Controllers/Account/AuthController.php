@@ -56,7 +56,7 @@ class AuthController extends Controller
             ]
         );
         if ($validator->fails()) {
-            return $this->returnFailureMessages($validator);
+            return response()->returnFailureMessages($validator);
         }
 
         try {
@@ -141,7 +141,7 @@ class AuthController extends Controller
             ]
         );
         if ($validator->fails()) {
-            return $this->returnFailureMessages($validator);
+            return response()->returnFailureMessages($validator);
         }
 
         try {
@@ -181,7 +181,7 @@ class AuthController extends Controller
             ]
         );
         if ($validator->fails()) {
-            return $this->returnFailureMessages($validator);
+            return response()->returnFailureMessages($validator);
         }
 
         try {
@@ -233,7 +233,7 @@ class AuthController extends Controller
         );
 
         if ($validator->fails()) {
-            return $this->returnFailureMessages($validator);
+            return response()->returnFailureMessages($validator);
         }
 
         try {
@@ -290,7 +290,7 @@ class AuthController extends Controller
             ]
         );
         if ($validator->fails()) {
-            return $this->returnFailureMessages($validator);
+            return response()->returnFailureMessages($validator);
         }
 
         try {
