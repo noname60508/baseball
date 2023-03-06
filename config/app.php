@@ -182,6 +182,9 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
+        // log-viewer
+        Arcanedev\LogViewer\LogViewerServiceProvider::class,
+
         /*
          * Package Service Providers...
          */

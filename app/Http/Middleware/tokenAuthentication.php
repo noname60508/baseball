@@ -47,7 +47,8 @@ class tokenAuthentication extends BaseMiddleware
                 } catch (JWTException $e) {
                     // 如果token時效過期，可刷新時間過期
                     $apiResponse = $this->ApiResponse(311, false, 'Token過期');
-                    return response($apiResponse, 200);
+                    // return response($apiResponse, 200);
+                    return response()->apiResponse(311, $apiResponse);
                 }
             }
         } catch (\Exception $e) {
@@ -57,7 +58,8 @@ class tokenAuthentication extends BaseMiddleware
                 $apiResponse = $this->ApiResponse(100, false, '請檢察token是否正確');
                 // $apiResponse = $this->ApiResponse(100, false, $e->getMessage());
             }
-            return response($apiResponse, 200);
+            // return response($apiResponse, 200);
+            return response()->apiResponse(311, $apiResponse);
         }
     }
 }

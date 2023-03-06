@@ -10,7 +10,7 @@ trait ValidatorJudge
      * @param [type] $validator
      * @return Array
      */
-    protected function returnFailureMessages($validator)
+    protected function failureMessages($validator)
     {
         return response()->apiResponse(100, $validator->errors());
         // return $this->apiResponse(2, false, $validator->errors());

@@ -18,7 +18,7 @@ class User extends Migration
             // 名稱
             $table->string('name')->comment('名稱');
             // 帳號
-            $table->string('account', 50)->comment('名稱');
+            $table->string('account', 50)->comment('帳號');
             // 信箱
             $table->string('email')->nullable()->comment('信箱');
             // 密碼
@@ -43,6 +43,6 @@ class User extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::drop('users');
     }
 }

@@ -26,17 +26,17 @@ class responseServerProvider extends ServiceProvider
     public function boot()
     {
         // api回傳資料
-        Response::macro('apiResponse', function ($code, $date, $token = null) {
+        Response::macro('apiResponse', function ($code, $data = [], $token = null) {
             if (empty($token)) {
-                return ApiResponseToServerProvider::apiResponse($code, $date);
+                return ApiResponseToServerProvider::apiResponse($code, $data);
             } else {
-                return Response::json(ApiResponseToServerProvider::apiResponse($code, $date), 200)
+                return Response::json(ApiResponseToServerProvider::apiResponse($code, $data), 200)
                     ->header('Authorization', $token);
             }
         });
 
         // 驗證失敗回傳
-        Response::macro('returnFailureMessages', function ($validator) {
+        Response::macro('failureMessages', function ($validator) {
             return ApiResponseToServerProvider::apiResponse(100, $validator->errors());
         });
     }
