@@ -1,0 +1,155 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ rootNamespace }}Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
+use App\Models\{{ class }} as ActiveModel;
+
+class {{ class }} extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        // 參數驗證
+        $validator = Validator::make($request->all(), [
+            // 驗證規則
+            // 'CaseNo' => ['nullable', 'string'],
+        ], [
+            // 自訂回傳錯誤訊息
+            // 'CaseNo.string' => '【CaseNo:案件編號】必須為字串',
+        ]);
+        // 錯誤回傳
+        if ($validator->fails()) {
+            return response()->JsonWithCode($validator->errors(), 400);
+        }
+        try {
+            //分頁清單
+            // $skip_paginate = (int) ($request->paginate_rows ?? $this->paginate_rows);
+            // $table  = $table->orderBy(,'asc')->paginate($skip_paginate);
+            // $output = $table->getCollection()->transform(function ($value) {
+            //     return [
+            //     ];
+            // });
+            // return response()->JsonWithCode(['data' => $output, 'total_pages' => $table->lastPate(), 'pagesPer' => $skip_paginate, 'total' => $table->total(), 'msg' => '查詢成功']);
+        } catch (\Throwable $e) {
+            return response()->JsonWithCode(['msg' => '未知錯誤', 'e' => $e->getMessage()], 500, __LINE__);
+        }
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        // 參數驗證
+        $validator = Validator::make($request->all(), [
+            // 驗證規則
+        ], [
+            // 自訂回傳錯誤訊息
+        ]);
+        // 錯誤回傳
+        if ($validator->fails()) {
+            return response()->JsonWithCode($validator->errors(), 400);
+        }
+
+        try {
+            // 回傳資料
+            $data = [];
+            // $data=ActiveModel::create($validator);
+            return response()->JsonWithCode(['data' => [], 'msg' => '建置成功']);
+        } catch (\Throwable $e) {
+            return response()->JsonWithCode(['msg' => '未知錯誤', 'e' => $e->getMessage()], 500, __LINE__);
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     * 回傳該筆資料查詢資訊
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show(int $id)
+    {
+        // 參數驗證
+        $validator = Validator::make([
+            'id' => $id,
+        ], [
+            // 驗證規則
+            'id' => ['required', 'integer'],
+
+        ], [
+            // 自訂回傳錯誤訊息
+            'id.required' => '【id:流水號】必須指定',
+            'id.integer'  => '【id:流水號】必須為整數',
+        ]);
+        // 錯誤回傳
+        if ($validator->fails()) {
+            return response()->JsonWithCode($validator->errors(), 400);
+        }
+        try {
+            $data = [];
+            // $data=ActiveModel::where('id',$id)->first();
+            return response()->JsonWithCode(['data' => [], 'msg' => '查詢成功']);
+        } catch (\Throwable $e) {
+            return response()->JsonWithCode(['msg' => '未知錯誤', 'e' => $e->getMessage()], 500, __LINE__);
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, int $id)
+    {
+        // 參數驗證
+        $validator = Validator::make($request->all(), [
+            // 驗證規則
+        ], [
+            // 自訂回傳錯誤訊息
+        ]);
+        // 錯誤回傳
+        if ($validator->fails()) {
+            return response()->JsonWithCode($validator->errors(), 400);
+        }
+
+        try {
+            // $ActiveModel=ActiveModel::where('id',$id);
+            // $updateArr = $request->only([]);
+            // $ActiveModel->update($updateArr);
+
+            return response()->JsonWithCode(['data' => [], 'msg' => '更新成功']);
+        } catch (\Throwable $e) {
+            return response()->JsonWithCode(['msg' => '未知錯誤', 'e' => $e->getMessage()], 500, __LINE__);
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(int $id)
+    {
+        // 刪除資料
+        try {
+            // ActiveModel::find($id)->delete();
+            return response()->JsonWithCode(['data' => [], 'msg' => '刪除成功']);
+        } catch (\Throwable $e) {
+            return response()->JsonWithCode(['msg' => '未知錯誤', 'e' => $e->getMessage()], 500, __LINE__);
+        }
+    }
+}

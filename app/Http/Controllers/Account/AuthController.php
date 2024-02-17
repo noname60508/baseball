@@ -4,22 +4,15 @@ namespace App\Http\Controllers\Account;
 
 use Exception;
 use App\Models\users;
-
 use App\Http\Controllers\Controller;
-use App\Http\Response\ApiResponse;
-use App\Http\Response\ValidatorJudge;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-use PHPOpenSourceSaver\JWTAuth\Exceptions\TokenExpiredException;
 
 class AuthController extends Controller
 {
-    use ValidatorJudge;
-    use ApiResponse;
-
     /**
      * Create a new AuthController instance.
      *
@@ -81,8 +74,6 @@ class AuthController extends Controller
             $user->update(['dt_login' => $this->nowTime]);
 
             return response()->apiResponse(301, $user, $token);
-            // $response = $this->apiResponse(301, true, $user);
-            // return response($response, 200)->header('Authorization', $token);
         } catch (\Throwable $e) {
             return response()->apiResponse(100, '');
             return response()->apiResponse(100, $e->getMessage());
@@ -186,7 +177,7 @@ class AuthController extends Controller
 
         try {
             if ($request->id == auth()->user()->id)
-                return $this->apiResponse(500, false, '無法刪除自身帳號');
+                return response()->apiResponse(500, '無法刪除自身帳號');
 
             users::where('id', $request->id)->delete();
 
@@ -327,7 +318,12 @@ class AuthController extends Controller
     public function userProfile()
     {
         try {
-            return response()->json(auth()->user());
+            // dd(auth());
+            $output = [
+                'user' => auth()->user(),
+                'payload' => auth()->payload(),
+            ];
+            return response()->json($output);
         } catch (\Throwable $e) {
             return $this->apiResponse(100, false, $e->getMessage());
         }

@@ -37,5 +37,7 @@ Route::group(['prefix' => 'v1'], function ($router) {
         Route::post('/userList', 'Account\AuthController@userList');
         // 修改帳號
         Route::post('/updateUser', 'Account\AuthController@updateUser');
+        // token資料
+        Route::get('/userProfile', 'Account\AuthController@userProfile');
     });
 });

@@ -5,8 +5,7 @@ namespace App\Http\Middleware;
 use Auth;
 use Closure;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Response\ApiResponse;
-use App\Http\Response\ValidatorJudge;
+use App\Http\Response\ApiResponseToServerProvider;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\JWTException;
 use PHPOpenSourceSaver\JWTAuth\Http\Middleware\BaseMiddleware;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\TokenExpiredException;
@@ -14,8 +13,6 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class tokenAuthentication extends BaseMiddleware
 {
-    use ValidatorJudge;
-    use ApiResponse;
     /**
      * Handle an incoming request.
      *
@@ -27,7 +24,7 @@ class tokenAuthentication extends BaseMiddleware
     {
         // 檢查是否有token
         if (empty($request->bearerToken())) {
-            $apiResponse = $this->ApiResponse(100, false, 'token必須輸入');
+            $apiResponse = ApiResponseToServerProvider::apiResponse(100, 'token必須輸入');
             return response($apiResponse, 200);
         }
         try {
@@ -46,20 +43,18 @@ class tokenAuthentication extends BaseMiddleware
                     return $next($request)->header('Authorization', $token);
                 } catch (JWTException $e) {
                     // 如果token時效過期，可刷新時間過期
-                    $apiResponse = $this->ApiResponse(311, false, 'Token過期');
-                    // return response($apiResponse, 200);
-                    return response()->apiResponse(311, $apiResponse);
+                    $apiResponse = ApiResponseToServerProvider::apiResponse(311, 'Token過期');
+                    return response($apiResponse, 200);
                 }
             }
         } catch (\Exception $e) {
             if ($e->getMessage() == 'The token has been blacklisted') {
-                $apiResponse = $this->ApiResponse(100, false, 'token已過期或被登出');
+                $apiResponse = ApiResponseToServerProvider::apiResponse(100, 'token已過期或被登出');
             } else {
-                $apiResponse = $this->ApiResponse(100, false, '請檢察token是否正確');
-                // $apiResponse = $this->ApiResponse(100, false, $e->getMessage());
+                $apiResponse = ApiResponseToServerProvider::apiResponse(100, '請檢察token是否正確');
             }
-            // return response($apiResponse, 200);
-            return response()->apiResponse(311, $apiResponse);
+            // return response($e->getMessage(), 200);
+            return response($apiResponse, 200);
         }
     }
 }
